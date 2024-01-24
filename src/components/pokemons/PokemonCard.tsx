@@ -48,8 +48,8 @@ export const PokemonCard = ({ pokemon }: Props) => {
                     </div>
                 </div>
                 <div className="border-b">
-                    <div className="px-4 py-2 hover:bg-gray-100 flex items-center cursor-pointer">
-                        <div onClick={onToggle} className="text-red-600">
+                    <div onClick={onToggle} className="px-4 py-2 hover:bg-gray-100 flex items-center cursor-pointer">
+                        <div className="text-red-600">
                             {
                                 isInTeam
                                     ? (<MdCatchingPokemon />)

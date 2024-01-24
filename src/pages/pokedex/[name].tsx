@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import type { Pokemon, Type, PokemonsResponse } from "~/components";
 import Image from "next/image";
-import Link from "next/link";
 import { IoArrowBack } from "react-icons/io5";
 import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
@@ -97,7 +96,7 @@ export default function PokemonPage({ params }: Props) {
         };
 
         void fetchDataAndHandleError();
-    }, [params.name]);
+    }, [params]);
 
     const navigateToPreviousRoute = () => {
         router.back();

@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { SimpleUser } from '~/components';
+import { type SimpleUser } from '~/components';
 
 
 export const authSlice = createSlice({

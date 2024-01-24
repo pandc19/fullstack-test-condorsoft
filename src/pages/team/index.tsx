@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
 
-import Swal from 'sweetalert2';
 
+import Swal from "sweetalert2";
 import { TeamsPokemons } from "~/components";
-import { useAppDispatch } from "~/store";
+import { useAppSelector } from "~/store";
+
 
 
 export default function PokeTeam() {
 
-    const dispatch = useAppDispatch();
+    const teamPokemonsState = useAppSelector(state => state.pokemons.team);
+    const teamPokemons = Object.values(teamPokemonsState);
 
+    const onSaveTeam = async () => {
+        if (teamPokemons.length !== 6) {
+            await Swal.fire('Advertencia', 'Tu equipo debe tenere exactamente 6 pokémon', 'warning');
+            return;
+        }
+    }
 
     return (
         <>
@@ -20,7 +27,7 @@ export default function PokeTeam() {
                         <span className="text-2xl text-bold text-white">Equipo Pokémon</span>
 
                         <button
-                            onClick={() => dispatch(() => { })}
+                            onClick={onSaveTeam}
                             className="flex items-center justify-center p-2 rounded-xl bg-white text-black hover:bg-gray-400 transition-all w-[150px] mr-2">
                             Confirmar equipo
                         </button>

@@ -1,22 +1,32 @@
 'use client';
 
-import { PokemonGrid } from "..";
-import { useState } from "react";
-import { IoHeartOutline } from "react-icons/io5";
+import { PokemonGrid, type SimplePokemon } from "..";
+import { useEffect, useState } from "react";
+import { MdCatchingPokemon } from "react-icons/md";
 import { useAppSelector } from "~/store";
 
 export const TeamsPokemons = () => {
 
-    const favoritePokemonsState = useAppSelector(state => state.pokemons.team);
-    const favoritePokemons = Object.values(favoritePokemonsState);
-    const [pokemons, setPokemons] = useState(favoritePokemons);
+    const teamPokemonsState = useAppSelector(state => state.pokemons.team);
+    const teamPokemons = Object.values(teamPokemonsState);
+    const [pokemons, setPokemons] = useState<SimplePokemon[]>([]);
 
+    useEffect(() => {
+        if (!arraysAreEqual(teamPokemons, pokemons)) {
+            setPokemons(teamPokemons);
+        }
+    }, [teamPokemons, pokemons]);
+
+    // Utility function to compare arrays
+    const arraysAreEqual = (array1: SimplePokemon[], array2: SimplePokemon[]) => {
+        return JSON.stringify(array1) === JSON.stringify(array2);
+    };
 
     return (
         <>
             {
                 pokemons.length
-                    ? <PokemonGrid pokemons={favoritePokemons} />
+                    ? <PokemonGrid pokemons={pokemons} />
                     : <NoTeamPokemons />
 
             }
@@ -27,8 +37,8 @@ export const TeamsPokemons = () => {
 export const NoTeamPokemons = () => {
     return (
         <div className="flex flex-col h-[50vh] items-center justify-center">
-            <IoHeartOutline size={100} className="text-red-500" />
-            <span>No tienes pokémon en tu equipo</span>
+            <MdCatchingPokemon size={100} className="text-red-500" />
+            <span className="text-white text-base font-normal">No tienes pokémon en tu equipo</span>
         </div>
     )
 }
