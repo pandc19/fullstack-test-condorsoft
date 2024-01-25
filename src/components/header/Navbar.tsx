@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { BiLogOut } from 'react-icons/bi';
 import { useAuthStore } from '~/hooks';
+import { useAppDispatch } from '~/store';
+import { setTeamPokemons } from '~/store/pokemons/pokemonSlice';
 
 const menuItems = [
     {
@@ -25,6 +27,7 @@ export const Navbar = () => {
     const currentPath = usePathname();
 
     const { status, startLogout, checkAuthToken } = useAuthStore();
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         void checkAuthToken();
@@ -34,6 +37,11 @@ export const Navbar = () => {
         return (
             <></>
         );
+    }
+
+    const onLogout = () => {
+        startLogout();
+        dispatch(setTeamPokemons({}));
     }
 
     return (
@@ -52,7 +60,7 @@ export const Navbar = () => {
             </div>
 
             <button className="flex items-center justify-center rounded-xl bg-white text-black text-base font-medium hover:bg-gray-400 transition-all w-[100px] mr-2"
-                onClick={startLogout}
+                onClick={onLogout}
             >
                 <BiLogOut />
                 &nbsp;

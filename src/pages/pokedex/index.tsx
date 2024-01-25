@@ -40,7 +40,11 @@ export default function Pokedex() {
 
   const onNewSearch = async (name: string) => {
     try {
-      await fetchData(`/api/pokemon?name=${name}&type=1`);
+      if (name.length > 0)
+        await fetchData(`/api/pokemon?name=${name}&type=1`);
+      else
+        await fetchData('/api/pokemons');
+
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch data';
       await Swal.fire('Error', errorMessage, 'error');

@@ -12,6 +12,7 @@ export type { SimplePokemon } from './pokemons/interfaces/simple-pokemon';
 export type { LoginForm } from './auth/interfaces/login-form';
 export type { RegisterForm } from './auth/interfaces/register-form';
 export type { SimpleUser, User } from './auth/interfaces/user';
+export type { UserTeam } from './auth/interfaces/user-team';
 
 
 export { getPokemons } from './pokemons/helpers/getPokemons';
@@ -20,5 +21,6 @@ export { getPokemonsByName, getPokemonByName } from './pokemons/helpers/getPokem
 
 export { createUser } from './auth/controllers/user';
 export { login } from './auth/controllers/auth';
+export { createUserTeam,deleteUserTeam } from './auth/controllers/user-team';
 
 export { generateJWT, decodeJWT } from './auth/helpers/jwt';

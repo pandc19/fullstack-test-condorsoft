@@ -2,8 +2,6 @@ import { type SimplePokemon } from '~/components';
 import { type PayloadAction } from '../../../node_modules/@reduxjs/toolkit/dist/createAction';
 import { createSlice } from '@reduxjs/toolkit'
 
-
-
 interface PokemonsState {
     team: { [key: string]: SimplePokemon },
 }
@@ -30,6 +28,8 @@ export const pokemonsSlice = createSlice({
             } else {
                 state.team[id] = pokemon;
             }
+
+            localStorage.setItem('pokemon-team', JSON.stringify(state.team));
         }
     }
 });

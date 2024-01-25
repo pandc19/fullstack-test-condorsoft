@@ -9,15 +9,11 @@ interface Props {
     children: React.ReactNode;
 }
 
+
 export const Providers = ({ children }: Props) => {
 
     useEffect(() => {
-        const team = {
-            1: { id: '1', name: 'bulbasaur' },
-            2: { id: '2', name: 'ivysaur' },
-            3: { id: '3', name: 'venasaur' },
-        };
-        // console.log(favorites);
+        const team = JSON.parse(localStorage.getItem('pokemon-team') ?? '{}');
         store.dispatch(setTeamPokemons(team));
     }, []);
 

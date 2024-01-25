@@ -18,7 +18,7 @@ export const SearchPokemon = ({ onNewSearch }: Props) => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         // console.log(event);
         event.preventDefault();
-        if (inputValue.trim().length <= 1) return;
+        // if (inputValue.trim().length <= 1) return;
 
         onNewSearch(inputValue.trim());
 
