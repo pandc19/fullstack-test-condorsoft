@@ -3,7 +3,7 @@
 import Swal from "sweetalert2";
 import { type Pokemon, type SimpleUser, TeamsPokemons, type UserTeam } from "~/components";
 import { useAuth } from "~/hooks";
-import { useAppDispatch, useAppSelector } from "~/store";
+import { useAppSelector } from "~/store";
 
 const saveTeamMember = async (team: UserTeam[]) => {
 
@@ -71,7 +71,7 @@ export default function PokeTeam() {
     const teamPokemons = Object.values(teamPokemonsState);
 
     const onSaveTeam = async () => {
-        let pokemonsToTeamList: UserTeam[] = [];
+        const pokemonsToTeamList: UserTeam[] = [];
         try {
             if (teamPokemons.length !== 6) {
                 await Swal.fire('Advertencia', 'Tu equipo debe tener exactamente 6 pokémon', 'warning');
@@ -84,7 +84,7 @@ export default function PokeTeam() {
                     userId: user.id,
                     pokemonId: pokemon.id,
                     pokemonName: member.name,
-                    pokemonType: pokemon.types.length > 0 ? pokemon.types[0]?.type.name! : '',
+                    pokemonType: pokemon.types.length > 0 ? pokemon.types[0]?.type.name ?? '' : '',
                 });
             });
 
@@ -99,7 +99,7 @@ export default function PokeTeam() {
 
             await deleteTeam(user.id);
 
-            saveTeamMember(pokemonsToTeamList);
+            void saveTeamMember(pokemonsToTeamList);
 
             await Swal.fire('Correcto', 'Tu equipo se registró correctamente', 'success');
 

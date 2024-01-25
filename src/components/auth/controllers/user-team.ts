@@ -1,7 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { type User } from '../interfaces/user';
-import { type RegisterForm } from '../interfaces/register-form';
-import { UserTeam } from '~/components';
+import { type UserTeam } from '~/components';
 
 const prisma = new PrismaClient()
 

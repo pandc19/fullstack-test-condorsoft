@@ -6,12 +6,9 @@ import pokedex from "../assets/JEXmMJ-800_1.png";
 import { useEffect } from "react";
 import { setTeamPokemons } from "~/store/pokemons/pokemonSlice";
 import { useAppDispatch, useAppSelector } from "~/store";
-import { SimplePokemon, SimpleUser, UserTeam } from "~/components";
+import type { SimplePokemon, SimpleUser, UserTeam } from "~/components";
 
 export default function Home() {
-
-
-
 
   useAuth();
   const dispatch = useAppDispatch();
@@ -27,7 +24,7 @@ export default function Home() {
         throw new Error(errorData.message);
       }
 
-      return response.json();
+      return (response.json() as Promise<UserTeam[]>);
     }
 
     const fetchData = async () => {

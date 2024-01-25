@@ -11,9 +11,9 @@ export default async function handler(
     try {
       const team = req.body as UserTeam[];
 
-      team.forEach(async (member) => {
+      team.forEach((member) => {
 
-        const createdTeam = await createUserTeam(member);
+        void createUserTeam(member);
       });
 
       res.status(200).json({
