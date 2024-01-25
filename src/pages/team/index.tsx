@@ -2,11 +2,14 @@
 
 import Swal from "sweetalert2";
 import { TeamsPokemons } from "~/components";
+import { useAuth } from "~/hooks";
 import { useAppSelector } from "~/store";
 
 
 
 export default function PokeTeam() {
+
+    useAuth();
 
     const teamPokemonsState = useAppSelector(state => state.pokemons.team);
     const teamPokemons = Object.values(teamPokemonsState);

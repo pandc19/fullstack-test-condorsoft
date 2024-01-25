@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import type { LoginForm, RegisterForm, User } from "~/components";
+import { type LoginForm, type RegisterForm, type SimpleUser } from "~/components";
 import type { RootState } from "~/store";
 import { clearErrorMessage, onChecking, onLogin, onLogout } from "~/store/auth/authSlice";
 
@@ -22,10 +22,12 @@ export const useAuthStore = () => {
             });
 
             if (response.ok) {
-                const data = await response.json() as User;
-                console.log('Login:', data);
+                const data = await response.json() as SimpleUser;
 
-                dispatch(onLogin({ name: data.name, id: data.id! }));
+                localStorage.setItem('token', data.token!);
+                localStorage.setItem('token-init-date', new Date().getTime().toString());
+
+                dispatch(onLogin({ name: data.name, id: data.id }));
             } else {
                 throw Error();
             }
@@ -52,16 +54,17 @@ export const useAuthStore = () => {
             });
 
             if (response.ok) {
-                const data = await response.json() as User;
-                // console.log('Post created:', data);
+                const data = await response.json() as SimpleUser;
 
-                dispatch(onLogin({ name: data.name, id: data.id! }));
+                localStorage.setItem('token', data.token!);
+                localStorage.setItem('token-init-date', new Date().getTime().toString());
+
+                dispatch(onLogin({ name: data.name, id: data.id }));
             } else {
                 throw Error();
             }
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : 'Failed to fetch data';
-            dispatch(onLogout(errorMessage || '--'));
+            dispatch(onLogout('Error al registrar usuario'));
             setTimeout(() => {
                 dispatch(clearErrorMessage());
             }, 10);
@@ -69,26 +72,37 @@ export const useAuthStore = () => {
     }
 
     const checkAuthToken = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) return dispatch(onLogout('Sesión caducada'));
-
         try {
-            // const { data } = await calendar Api.get('/auth/renew');
-            const data = { token: '', name: '', id: 0 }
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('token-init-date', new Date().getTime().toString());
 
-            dispatch(onLogin({ name: data.name, id: data.id }));
+            const token = localStorage.getItem('token');
+            if (!token || token === 'undefined') return dispatch(onLogout());
 
+            const response = await fetch(`/api/auth?token=${token}`);
+
+            if (response.ok) {
+                const data = await response.json() as SimpleUser;
+                localStorage.setItem('token', data.token!);
+                localStorage.setItem('token-init-date', new Date().getTime().toString());
+
+                dispatch(onLogin({ name: data.name, id: data.id }));
+            } else {
+                throw Error();
+            }
         } catch (error) {
-            localStorage.clear();
-            dispatch(onLogout('Sesión cerrada'));
+            dispatch(onLogout('Error al validar sesión'));
+            setTimeout(() => {
+                dispatch(clearErrorMessage());
+            }, 10);
         }
+
+
+
+
     }
 
     const startLogout = () => {
         localStorage.clear();
-        dispatch(onLogout('Sesión cerrada'));
+        dispatch(onLogout());
     }
 
     return {

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { IoArrowBack } from "react-icons/io5";
 import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
+import { useAuth } from "~/hooks";
 
 interface Props {
     params: {
@@ -78,17 +79,17 @@ const fetchData = async (name: string): Promise<Pokemon> => {
 
 export default function PokemonPage({ params }: Props) {
 
+    useAuth();
     const router = useRouter();
-
-
     const [pokemon, setPokemon] = useState<Pokemon>();
 
     useEffect(() => {
-
         const fetchDataAndHandleError = async () => {
             try {
-                const fetchedData = await fetchData(params.name);
-                setPokemon(fetchedData);
+                if (params) {
+                    const fetchedData = await fetchData(params.name);
+                    setPokemon(fetchedData);
+                }
             } catch (error) {
                 const errorMessage = error instanceof Error ? error.message : 'Failed to fetch data';
                 await Swal.fire('Error', errorMessage, 'error');
@@ -101,7 +102,6 @@ export default function PokemonPage({ params }: Props) {
     const navigateToPreviousRoute = () => {
         router.back();
     };
-
 
     return (
         <>

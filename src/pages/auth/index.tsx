@@ -25,12 +25,14 @@ export default function LoginPage() {
     const { startLogin, startRegister, errorMessage } = useAuthStore();
 
     const { loginEmail, loginPassword, onInputChange: onLoginInputChange } = useForm<LoginForm>(loginFormFields);
-    const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange: onRegisterInputChange, onResetForm } = useForm<RegisterForm>(registerFormFields);
+    const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange: onRegisterInputChange } = useForm<RegisterForm>(registerFormFields);
 
     const loginSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         await startLogin({ loginEmail, loginPassword });
-        await router.push('/pokedex');
+
+        await router.push('/');
+
     }
 
     const registerSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -42,13 +44,12 @@ export default function LoginPage() {
 
         await startRegister({ registerName, registerEmail, registerPassword, registerPassword2 });
 
-        await Swal.fire('Correcto', 'Usuario creado correctamente', 'success');
-        onResetForm();
+        await router.push('/');
     }
 
     useEffect(() => {
-        if (errorMessage.length > 0) {
-            void Swal.fire('Error en la autenticación', errorMessage, 'error');
+        if (errorMessage !== undefined) {
+            void Swal.fire('Error', errorMessage, 'error');
         };
 
     }, [errorMessage]);

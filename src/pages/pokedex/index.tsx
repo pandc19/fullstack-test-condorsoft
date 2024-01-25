@@ -4,10 +4,12 @@ import Swal from 'sweetalert2';
 
 import { PokemonGrid, SearchPokemon } from "~/components";
 import type { SimplePokemon } from "~/components";
+import { useAuth } from "~/hooks";
 
 
 export default function Pokedex() {
 
+  useAuth();
 
   const [pokemons, setPokemons] = useState<SimplePokemon[]>([]);
 

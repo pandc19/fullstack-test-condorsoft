@@ -16,16 +16,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             </Head>
             <main className="bg-cover" style={{ backgroundImage: `url(${background.src})` }}>
-                <Header />
-                <div className="flex min-h-screen flex-col items-center justify-center">
-                    <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-                        <Providers >
+                <Providers >
+                    <Header />
+                    <div className="flex min-h-screen flex-col items-center justify-center">
+                        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+
                             {children}
 
-                        </Providers>
-                    </div>
 
-                </div>
+                        </div>
+
+                    </div>
+                </Providers>
             </main>
         </>
     );

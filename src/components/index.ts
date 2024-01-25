@@ -20,3 +20,5 @@ export { getPokemonsByName, getPokemonByName } from './pokemons/helpers/getPokem
 
 export { createUser } from './auth/controllers/user';
 export { login } from './auth/controllers/auth';
+
+export { generateJWT, decodeJWT } from './auth/helpers/jwt';

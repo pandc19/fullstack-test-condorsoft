@@ -1,26 +1,19 @@
 import { PrismaClient } from '@prisma/client';
 import { type User } from '../interfaces/user';
-import { type LoginForm } from '../interfaces/login-form';
 
 const prisma = new PrismaClient()
 
-export const login = async ({ loginEmail, loginPassword }: LoginForm): Promise<User[]> => {
+export const login = async (email: string): Promise<User | undefined> => {
     try {
-        const users = await prisma.user.findMany({
-            where: {
-                AND: [
-                    { email: loginEmail },
-                    { password: loginPassword },
-                    // Add more fields as needed for your search
-                ],
-            },
+        const user = await prisma.user.findUnique({
+            where: { email },
         });
         // console.log(createdUser)
 
-        return users as User[];
-
+        return user as User;
     } catch (error) {
         console.error("Error authenticating: ", error);
         throw new Error("Internal Server Error");
     }
 }
+

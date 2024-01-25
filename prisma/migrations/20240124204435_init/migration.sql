@@ -11,7 +11,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "EquipoUsuario" (
+CREATE TABLE "UserTeam" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "pokemonId" INTEGER NOT NULL,
@@ -20,11 +20,11 @@ CREATE TABLE "EquipoUsuario" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "EquipoUsuario_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "UserTeam_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "EquipoUsuario" ADD CONSTRAINT "EquipoUsuario_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserTeam" ADD CONSTRAINT "UserTeam_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

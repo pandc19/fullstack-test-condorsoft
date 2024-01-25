@@ -1,7 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { type RegisterForm, createUser, generateJWT } from "~/components";
-
-import bcrypt from 'bcryptjs';
+import { type RegisterForm, createUser } from "~/components";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,19 +10,9 @@ export default async function handler(
     try {
       const { registerName, registerEmail, registerPassword } = req.body as RegisterForm;
 
-      // Encriptar contraseña
-      const salt = bcrypt.genSaltSync();
-      const encryptedPassword = bcrypt.hashSync(registerPassword, salt);
-
-      const createdUser = await createUser({ registerName, registerEmail, registerPassword: encryptedPassword });
-
-      const token = await generateJWT(createdUser.id!, createdUser.name);
-
-      res.status(200).json({
-        id: createdUser.id,
-        name: createdUser.name,
-        token
-      });
+      const createdUser = await createUser({ registerName, registerEmail, registerPassword });
+      // console.log(createdUser)
+      res.status(200).json(createdUser);
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';

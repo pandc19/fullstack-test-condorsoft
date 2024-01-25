@@ -9,4 +9,5 @@ export interface User {
 export interface SimpleUser {
     name: string;
     id: number;
+    token?: string;
 }
