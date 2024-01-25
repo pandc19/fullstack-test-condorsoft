@@ -34,7 +34,7 @@ export default async function handler(
     try {
       const { userId } = req.query;
 
-      await deleteUserTeam(parseInt(userId as string, 10));
+      await deleteUserTeam(parseInt(userId as string));
       res.status(200).json({
         message: 'ok'
       });

@@ -10,7 +10,7 @@ export const createUserTeam = async (team: UserTeam): Promise<UserTeam> => {
                 ...team
             },
         });
-        console.log(createdTeam)
+        // console.log(createdTeam)
 
         return createdTeam;
 
