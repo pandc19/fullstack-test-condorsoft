@@ -29,19 +29,29 @@ export default function Home() {
 
     const fetchData = async () => {
       try {
-        const team = await getTeam(user.id);
+        const localStorageTeam = localStorage.getItem('pokemon-team');
 
-        const userTeamObject = team.reduce((result, teamMember) => {
-          result[teamMember.pokemonId] = {
-            id: teamMember.pokemonId.toString(),
-            name: teamMember.pokemonName,
-          };
-          return result;
-        }, {} as Record<number, SimplePokemon>);
+        if (localStorageTeam) {
+          const teamLocal = JSON.parse(localStorageTeam) as Record<number, SimplePokemon>;
+          dispatch(setTeamPokemons(teamLocal));
+        }
+        else {
+          const team = await getTeam(user.id);
 
-        localStorage.setItem('pokemon-team', JSON.stringify(userTeamObject));
+          const userTeamObject = team.reduce((result, teamMember) => {
+            result[teamMember.pokemonId] = {
+              id: teamMember.pokemonId.toString(),
+              name: teamMember.pokemonName,
+            };
+            return result;
+          }, {} as Record<number, SimplePokemon>);
 
-        dispatch(setTeamPokemons(userTeamObject));
+          localStorage.setItem('pokemon-team', JSON.stringify(userTeamObject));
+
+          dispatch(setTeamPokemons(userTeamObject));
+        }
+
+
       } catch (error) {
         console.error("Error fetching team data:", error);
       }
